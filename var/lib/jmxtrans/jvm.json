@@ -1,0 +1,49 @@
+{
+  "servers" : [ {
+    "port" : "54299",
+    "host" : "HOSTNAME",
+    "queries" : [ 
+      	{
+      		"obj" : "java.lang:type=Memory",
+      		"attr" : [ "HeapMemoryUsage", "NonHeapMemoryUsage" ],
+      		"outputWriters" : [ {
+        		"@class" : "com.googlecode.jmxtrans.model.output.GraphiteWriter",
+        		"settings" : {
+          			"port" : 2003,
+          			"host" : "carbon.service.consul"
+        		}
+      		} ]
+      	},{
+      		"obj" : "java.lang:type=OperatingSystem",
+      		"attr" : [ "MaxFileDescriptorCount", "OpenFileDescriptorCount", "CommittedVirtualMemorySize", "ProcessCpuLoad", "SystemCpuLoad", "FreePhysicalMemorySize", "TotalPhysicalMemorySize" ],
+      		"outputWriters" : [ {
+        		"@class" : "com.googlecode.jmxtrans.model.output.GraphiteWriter",
+        		"settings" : {
+          			"port" : 2003,
+          			"host" : "carbon.service.consul"
+        		}
+      		} ]
+      	},{
+      		"obj" : "java.lang:type=GarbageCollector",
+      		"attr" : [ "CollectionTime", "CollectionCount" ],
+      		"outputWriters" : [ {
+        		"@class" : "com.googlecode.jmxtrans.model.output.GraphiteWriter",
+        		"settings" : {
+          			"port" : 2003,
+          			"host" : "carbon.service.consul"
+        		}
+      		} ]
+      	},{
+      		"obj" : "java.lang:type=Threading",
+      		"attr" : [ "ThreadCount", "DaemonThreadCount", "CurrentThreadCpuTime", "CurrentThreadUserTime" ],
+      		"outputWriters" : [ {
+        		"@class" : "com.googlecode.jmxtrans.model.output.GraphiteWriter",
+        		"settings" : {
+          			"port" : 2003,
+          			"host" : "carbon.service.consul"
+        		}
+      		} ]
+      	}
+ 	]
+  } ]
+}

@@ -6,3 +6,4 @@ RUN export JMX_VER=251 && \
     unset JMX_VER
 ADD opt/qnib/jmxtrans/bin/start.sh /opt/qnib/jmxtrans/bin/
 ADD etc/supervisord.d/jmxtrans.ini /etc/supervisord.d/
+ADD var/lib/jmxtrans/jvm.json /var/lib/jmxtrans/
