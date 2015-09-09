@@ -1,0 +1,35 @@
+{{"{"}}
+  "servers" : [ {
+    "port" : "54299",
+    "host" : "{{ env "HOSTNAME"}}",
+    "queries" : [ {{"{"}}
+            "obj" : "java.lang:type=Memory",
+            "attr" : [ "HeapMemoryUsage", "NonHeapMemoryUsage" ],
+            "outputWriters" : [ {{range $i, $e := service "carbon" "passing"}}{{if eq $i 0}}{{"{"}}{{else}}{{"},{"}}{{end}}
+                    "@class" : "com.googlecode.jmxtrans.model.output.GraphiteWriter",
+                    "settings" : {{"{"}}"port" : {{$e.Port}}, "host" : "{{$e.Address}}"{{"}"}}
+            {{end}}{{"}"}} ]
+       {{"}"}},{{"{"}}
+            "obj" : "java.lang:type=OperatingSystem",
+            "attr" : [ "MaxFileDescriptorCount", "OpenFileDescriptorCount", "CommittedVirtualMemorySize", "ProcessCpuLoad", "SystemCpuLoad", "FreePhysicalMemorySize", "TotalPhysicalMemorySize" ],
+            "outputWriters" : [ {{range $i, $e := service "carbon" "passing"}}{{if eq $i 0}}{{"{"}}{{else}}{{"},{"}}{{end}}
+                    "@class" : "com.googlecode.jmxtrans.model.output.GraphiteWriter",
+                    "settings" : {{"{"}}"port" : {{$e.Port}}, "host" : "{{$e.Address}}"{{"}"}}
+            {{end}}{{"}"}} ]
+       {{"}"}},{{"{"}}
+            "obj" : "java.lang:type=GarbageCollector",
+            "attr" : [ "CollectionTime", "CollectionCount" ],
+            "outputWriters" : [ {{range $i, $e := service "carbon" "passing"}}{{if eq $i 0}}{{"{"}}{{else}}{{"},{"}}{{end}}
+                    "@class" : "com.googlecode.jmxtrans.model.output.GraphiteWriter",
+                    "settings" : {{"{"}}"port" : {{$e.Port}}, "host" : "{{$e.Address}}"{{"}"}}
+            {{end}}{{"}"}} ]
+       {{"}"}},{{"{"}}
+            "obj" : "java.lang:type=Threading",
+            "attr" : [ "ThreadCount", "DaemonThreadCount", "CurrentThreadCpuTime", "CurrentThreadUserTime" ],
+            "outputWriters" : [ {{range $i, $e := service "carbon" "passing"}}{{if eq $i 0}}{{"{"}}{{else}}{{"},{"}}{{end}}
+                    "@class" : "com.googlecode.jmxtrans.model.output.GraphiteWriter",
+                    "settings" : {{"{"}}"port" : {{$e.Port}}, "host" : "{{$e.Address}}"{{"}"}}
+            {{end}}{{"}"}} ]
+       {{"}"}} ]
+  {{"}"}} ]
+{{"}"}}
