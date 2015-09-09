@@ -4,7 +4,7 @@ PIDFILE=/var/run/jmxtrans/jmxtrans.pid
 export HOSTNAME=$(hostname -f)
 
 function wait_for_srv {
-    if [ $(curl -s consul.service.consul:8500/v1/catalog/service/${1}${DC}|jq ".|length") -ne 0 ];then
+    if [ $(curl -s consul.service.consul:8500/v1/catalog/service/${1}${DC}|jq ". | length") -eq 0 ];then
         echo -n "."
         sleep 1
         wait_for_srv ${1}
@@ -13,8 +13,8 @@ function wait_for_srv {
     fi
 }
 
-PARENT_DC=$(curl -s consul.service.consul:8500/v1/catalog/datacenters|jq ".[]"|grep -v ${DC_NAME})
-if [ "X${PARENT_DC}" != "X" ];then 
+PARENT_DC=$(curl -s consul.service.consul:8500/v1/catalog/datacenters|jq -r ".[]"|grep -v ${DC_NAME})
+if [ "X${PARENT_DC}" != "X" ];then
     for ctmpl in $(ls /etc/consul-templates/jmxtrans.*);do
         echo "sed -i'' -E 's#service \'carbon(@\w+)?\'#service 'carbon@${ZK_DC}'#' ${ctmpl}"
         sed -i'' -E "s#service \"carbon(@\w+)?\"#service \"carbon@${ZK_DC}\"#" ${ctmpl}
