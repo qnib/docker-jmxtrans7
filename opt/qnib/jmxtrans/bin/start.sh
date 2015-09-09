@@ -26,6 +26,7 @@ if [ "X${PARENT_DC}" != "X" ];then
 fi
 echo -n "Search for service 'carbon' in '${DC}': "
 wait_for_srv carbon
+sleep 5
 
 echo "consul-template -once -consul consul.service.consul:8500 -template '/etc/consul-templates/jmxtrans.jvm.json.ctmpl:/var/lib/jmxtrans/jvm.json'"
 consul-template -once -consul consul.service.consul:8500 -template "/etc/consul-templates/jmxtrans.jvm.json.ctmpl:/var/lib/jmxtrans/jvm.json"
